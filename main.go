@@ -1,92 +1,97 @@
 package main
 
 import (
-	"net/http"
+	"GIN/controllers"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
-	r.GET("/ping", func(c *gin.Context) { //http://localhost:8000/ping
-		c.JSON(http.StatusOK, gin.H{
-			"message": "pong from main ",
-		})
-	})
 
-	r.GET("/hello", func(c *gin.Context) { //http://localhost:8000/hello
-		c.JSON(200, gin.H{
-			"message": "Hello, World!",
-		})
-	})
-	r.GET("/me/:id", func(ctx *gin.Context) {
-		var id = ctx.Param("id")
-		ctx.JSON(http.StatusOK, gin.H{
-			"user_id": id,
-		})
+	//r.GET("/ping", func(c *gin.Context) { //http://localhost:8000/ping
+	// c.JSON(http.StatusOK, gin.H{
+	// 	"message": "pong from main ",
+	// })
+	// })
 
-	})
-	r.POST("/submit", func(c *gin.Context) { ////http://localhost:8000/submit
+	// r.GET("/hello", func(c *gin.Context) { //http://localhost:8000/hello
+	// 	c.JSON(200, gin.H{
+	// 		"message": "Hello, World!",
+	// 	})
+	// })
+	// r.GET("/me/:id", func(ctx *gin.Context) {
+	// 	var id = ctx.Param("id")
+	// 	ctx.JSON(http.StatusOK, gin.H{
+	// 		"user_id": id,
+	// 	})
 
-		name := c.PostForm("name")
-		//text := c.GetString("hello world")
-		c.JSON(200, gin.H{
+	// })
+	// r.POST("/submit", func(c *gin.Context) { ////http://localhost:8000/submit
 
-			"text": name,
-		})
-	})
+	// 	name := c.PostForm("name")
+	// 	//text := c.GetString("hello world")
+	// 	c.JSON(200, gin.H{
 
-	r.POST("/new", func(ctx *gin.Context) {
-		type myRequest struct {
-			Email    string `json:"email"`
-			Password string `json:"password"`
-		}
+	// 		"text": name,
+	// 	})
+	// })
 
-		var MyRequest myRequest
-		ctx.BindJSON(&MyRequest)
-		ctx.JSON(200, gin.H{
+	// r.POST("/new", func(ctx *gin.Context) {
+	// 	type myRequest struct {
+	// 		Email    string `json:"email"`
+	// 		Password string `json:"password"`
+	// 	}
 
-			"email":    MyRequest.Email,
-			"password": MyRequest.Password,
-		})
-	})
-	r.PUT("/new", func(ctx *gin.Context) {
-		type myRequest struct {
-			Email    string `json:"email"`
-			Password string `json:"password"`
-		}
+	// 	var MyRequest myRequest
+	// 	ctx.BindJSON(&MyRequest)
+	// 	ctx.JSON(200, gin.H{
 
-		var MyRequest myRequest
-		ctx.BindJSON(&MyRequest)
-		ctx.JSON(200, gin.H{
+	// 		"email":    MyRequest.Email,
+	// 		"password": MyRequest.Password,
+	// 	})
+	// })
+	// r.PUT("/new", func(ctx *gin.Context) {
+	// 	type myRequest struct {
+	// 		Email    string `json:"email"`
+	// 		Password string `json:"password"`
+	// 	}
 
-			"email":    MyRequest.Email,
-			"password": MyRequest.Password,
-		})
-	})
+	// 	var MyRequest myRequest
+	// 	ctx.BindJSON(&MyRequest)
+	// 	ctx.JSON(200, gin.H{
 
-	r.PATCH("/new", func(ctx *gin.Context) {
-		type myRequest struct {
-			Email    string `json:"email"`
-			Password string `json:"password"`
-		}
+	// 		"email":    MyRequest.Email,
+	// 		"password": MyRequest.Password,
+	// 	})
+	// })
 
-		var MyRequest myRequest
-		ctx.BindJSON(&MyRequest)
-		ctx.JSON(200, gin.H{
+	// r.PATCH("/new", func(ctx *gin.Context) {
+	// 	type myRequest struct {
+	// 		Email    string `json:"email"`
+	// 		Password string `json:"password"`
+	// 	}
 
-			"email":    MyRequest.Email,
-			"password": MyRequest.Password,
-		})
-	})
+	// 	var MyRequest myRequest
+	// 	ctx.BindJSON(&MyRequest)
+	// 	ctx.JSON(200, gin.H{
 
-	r.DELETE("me/:id", func(ctx *gin.Context) {
-		var id = ctx.Param("id")
+	// 		"email":    MyRequest.Email,
+	// 		"password": MyRequest.Password,
+	// 	})
+	// })
 
-		ctx.JSON(http.StatusOK, gin.H{
-			"id":      id,
-			"message": "Deleted!!!",
-		})
-	})
+	// r.DELETE("me/:id", func(ctx *gin.Context) {
+	// 	var id = ctx.Param("id")
+
+	// 	ctx.JSON(http.StatusOK, gin.H{
+	// 		"id":      id,
+	// 		"message": "Deleted!!!",
+	// 	})
+	// })
+
+	notesContrroler := &controllers.NotesController{}
+	notesContrroler.InitNotesControllerRoutes(r)
+
 	r.Run(":8000")
 }
