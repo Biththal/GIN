@@ -50,5 +50,43 @@ func main() {
 			"password": MyRequest.Password,
 		})
 	})
+	r.PUT("/new", func(ctx *gin.Context) {
+		type myRequest struct {
+			Email    string `json:"email"`
+			Password string `json:"password"`
+		}
+
+		var MyRequest myRequest
+		ctx.BindJSON(&MyRequest)
+		ctx.JSON(200, gin.H{
+
+			"email":    MyRequest.Email,
+			"password": MyRequest.Password,
+		})
+	})
+
+	r.PATCH("/new", func(ctx *gin.Context) {
+		type myRequest struct {
+			Email    string `json:"email"`
+			Password string `json:"password"`
+		}
+
+		var MyRequest myRequest
+		ctx.BindJSON(&MyRequest)
+		ctx.JSON(200, gin.H{
+
+			"email":    MyRequest.Email,
+			"password": MyRequest.Password,
+		})
+	})
+
+	r.DELETE("me/:id", func(ctx *gin.Context) {
+		var id = ctx.Param("id")
+
+		ctx.JSON(http.StatusOK, gin.H{
+			"id":      id,
+			"message": "Deleted!!!",
+		})
+	})
 	r.Run(":8000")
 }
