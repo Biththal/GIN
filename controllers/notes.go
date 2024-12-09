@@ -31,7 +31,7 @@ func (n *NotesController) CreatePost() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {
 		ctx.JSON(200, gin.H{
-			"notes": "Post Request",
+			"notes": n.notesService.CreatePostService(),
 		})
 	}
 
