@@ -2,12 +2,21 @@ package main
 
 import (
 	"GIN/controllers"
+	internal "GIN/internal/database"
+	"fmt"
 
 	"github.com/gin-gonic/gin"
 )
 
 func main() {
 	r := gin.Default()
+	db := internal.InitDB()
+
+	if db == nil {
+		fmt.Print("error while connecting to the database")
+	} else {
+		fmt.Println("Database connected successfully!!!")
+	}
 
 	//r.GET("/ping", func(c *gin.Context) { //http://localhost:8000/ping
 	// c.JSON(http.StatusOK, gin.H{
