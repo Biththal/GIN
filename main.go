@@ -2,6 +2,9 @@ package main
 
 import (
 	"GIN/controllers"
+
+	"GIN/services"
+
 	internal "GIN/internal/database"
 	"fmt"
 
@@ -17,6 +20,12 @@ func main() {
 	} else {
 		fmt.Println("Database connected successfully!!!")
 	}
+	notesService := &services.NotesService{}
+	notesService.InitService(db)
+	notesContrroler := &controllers.NotesController{}
+	notesContrroler.InitNotesControllerRoutes(r, *notesService)
+
+	r.Run(":8000")
 
 	//r.GET("/ping", func(c *gin.Context) { //http://localhost:8000/ping
 	// c.JSON(http.StatusOK, gin.H{
@@ -99,8 +108,4 @@ func main() {
 	// 	})
 	// })
 
-	notesContrroler := &controllers.NotesController{}
-	notesContrroler.InitNotesControllerRoutes(r)
-
-	r.Run(":8000")
 }

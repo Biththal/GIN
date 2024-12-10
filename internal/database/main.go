@@ -8,7 +8,7 @@ import (
 )
 
 func InitDB() *gorm.DB {
-	dsn := "root@tcp(localhost:3306)/task?charset=utf8mb4&parseTime=True&loc=Local"
+	dsn := "root@tcp(localhost:3306)/gin?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		fmt.Println("error connecting to the database")
