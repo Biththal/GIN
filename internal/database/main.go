@@ -18,3 +18,17 @@ func InitDB() *gorm.DB {
 	return db
 
 }
+
+// func (n *NotesService) FindNoteByTitle(title string) (*internal.Notes, error) {
+// 	var note internal.Notes
+// 	// Use GORM's First method to find a note by title
+// 	result := n.db.Where("title = ?", title).First(&note)
+
+// 	if result.Error != nil {
+// 		if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+// 			return nil, nil // No note found with the given title
+// 		}
+// 		return nil, result.Error // Unexpected error
+// 	}
+// 	return &note, nil
+// }

@@ -22,25 +22,27 @@ type Note struct {
 	Name string
 }
 
-func (n *NotesService) GetNotesService() []Note {
-	data := []Note{
-		{
-			Id:   1,
-			Name: "Biththal",
-		},
-		{
-			Id:   2,
-			Name: "Success",
-		},
+func (n *NotesService) GetNotesService(status bool) ([]*internal.Notes, error) {
+
+	var notes []*internal.Notes
+	if err := n.db.Where("status= ?", status).Find(&notes).Error; err != nil {
+		return nil, err
 	}
-	return data
+
+	return notes, nil
 }
 
 func (n *NotesService) CreatePostService(title string, status bool) (*internal.Notes, error) {
+
 	note := &internal.Notes{
 		Title:  title,
 		Status: status,
 	}
+
+	// if note.Title == "" {
+	// 	return nil, errors.New("Title is required")
+
+	// }
 
 	err := n.db.Create(note).Error
 
@@ -52,4 +54,40 @@ func (n *NotesService) CreatePostService(title string, status bool) (*internal.N
 
 	return note, nil
 
+}
+func (n *NotesService) UpdateNotesService(title string, status bool, id int) (*internal.Notes, error) {
+
+	var note *internal.Notes
+	if err := n.db.Where("id = ?", id).First(&note).Error; err != nil {
+		return nil, err
+	}
+
+	note.Title = title
+	note.Status = status
+
+	err := n.db.Save(note).Error
+
+	if err != nil {
+		fmt.Print(err)
+		return nil, err
+
+	}
+
+	return note, nil
+
+}
+
+func (n *NotesService) DeleteNotesServices(id int64) error {
+
+	var note *internal.Notes
+	if err := n.db.Where("id = ?", id).First(&note).Error; err != nil {
+		return err
+	}
+
+	if err := n.db.Where("id = ?", id).Delete(&note).Error; err != nil {
+		fmt.Print(err)
+		return err
+	}
+
+	return nil
 }
